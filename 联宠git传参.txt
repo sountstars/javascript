@@ -1,0 +1,29 @@
+colorlis = (index) => {
+        let { toolsstyle } = this.refs;
+        toolsstyle.style.display = 'block';
+        let params = {
+            selectI: 0,
+            limit: 20,
+            offset: 0
+        }
+        params.order = index;
+        const objToForm = (v) => {
+            var str = '';
+            for (let o in v) {
+                str += o + '=' + v[o] + '&';
+            }
+            str = str.substring(0, str.length - 1);
+            return str;
+        };
+        let val = objToForm(params)
+        console.log(val);
+        axios.post('https://www.linkpet.com.cn/Mobile/Merchant/index', val)
+            .then(e => {
+                console.log(e)
+                if (e.status === 200) {
+                    toolsstyle.style.display = 'none';
+                    this.setState({ colorindex: index, arr: e.data.data.list });  //点击改变颜色
+                    this.windowOnScroll()
+                }
+            })
+    }
